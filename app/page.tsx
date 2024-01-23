@@ -1,4 +1,6 @@
 import Image from "next/image";
+import { Button } from "@nextui-org/button";
+
 var trafficMeister = require("@/service/index");
 
 export default function Home() {
@@ -11,6 +13,7 @@ export default function Home() {
       <div className="z-10 max-w-5xl w-full items-center justify-between font-mono text-sm lg:flex">
         Test
       </div>
+      <Button>Click me</Button>
     </main>
   );
 }
