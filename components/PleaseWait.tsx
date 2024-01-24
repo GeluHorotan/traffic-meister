@@ -3,12 +3,12 @@ import React, { FC } from "react";
 // Spinner
 import { RotatingLines } from "react-loader-spinner";
 
-interface INotFound {
+interface IPleaseWait {
   children?: React.ReactNode;
   isInField?: boolean;
 }
 
-const NotFound: FC<INotFound> = ({ children, isInField }) => {
+const PleaseWait: FC<IPleaseWait> = ({ children, isInField }) => {
   if (isInField) {
     return (
       <div className="gap-4 items-center justify-center flex ">
@@ -40,4 +40,4 @@ const NotFound: FC<INotFound> = ({ children, isInField }) => {
   }
 };
 
-export default NotFound;
+export default PleaseWait;

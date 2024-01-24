@@ -17,7 +17,7 @@ import { IKeys } from "@/types/IKeys";
 import { IActiveFilters } from "@/types/IActiveFilters";
 import { IVehicle } from "@/types/IVehicle";
 import { capitalizeLetter } from "@/lib/capitalizeLetter";
-import NotFound from "./NotFound";
+import PleaseWait from "@/components/PleaseWait";
 
 interface IFields {
   setVehicleCopy?: React.Dispatch<React.SetStateAction<IVehicle[] | undefined>>;
@@ -102,7 +102,7 @@ const Fields: FC<IFields> = ({ setVehicleCopy, vehicleCopy, vehicleData }) => {
             <SelectValue
               placeholder={
                 selectItems.brands.length === 0 ? (
-                  <NotFound isInField>Please wait.</NotFound>
+                  <PleaseWait isInField>Please wait.</PleaseWait>
                 ) : (
                   "Select a brand."
                 )
@@ -151,7 +151,7 @@ const Fields: FC<IFields> = ({ setVehicleCopy, vehicleCopy, vehicleData }) => {
             <SelectValue
               placeholder={
                 selectItems.types.length === 0 ? (
-                  <NotFound isInField>Please wait.</NotFound>
+                  <PleaseWait isInField>Please wait.</PleaseWait>
                 ) : (
                   "Select a brand."
                 )
@@ -201,7 +201,7 @@ const Fields: FC<IFields> = ({ setVehicleCopy, vehicleCopy, vehicleData }) => {
             <SelectValue
               placeholder={
                 selectItems.colors.length === 0 ? (
-                  <NotFound isInField>Please wait.</NotFound>
+                  <PleaseWait isInField>Please wait.</PleaseWait>
                 ) : (
                   "Select a brand."
                 )

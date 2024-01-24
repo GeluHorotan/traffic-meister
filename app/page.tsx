@@ -6,7 +6,7 @@ import { useState, useEffect } from "react";
 import { IVehicle } from "@/types/IVehicle";
 import Fields from "@/components/Fields";
 import VehicleCard from "@/components/VehicleCard";
-import NotFound from "@/components/NotFound";
+import PleaseWait from "@/components/PleaseWait";
 
 //Data
 var trafficMeister = require("@/service/index");
@@ -32,7 +32,6 @@ export default function Home() {
         />
       </div>
 
-      <NotFound>Please Wait.</NotFound>
       {vehicleCopy ? (
         <div className=" grid grid-cols-3  max-[950px]:w-full max-[1500px]:w-[90%] w-[70%] max-[1245px]:grid-cols-2 max-[950px]:grid-cols-1 items-center justify-between gap-8 ">
           {vehicleCopy?.map((vehicle) => {
@@ -42,7 +41,7 @@ export default function Home() {
           })}
         </div>
       ) : (
-        <NotFound>Please wait, we&apos;re getting the vehicles.</NotFound>
+        <PleaseWait>Please wait, we&apos;re getting the vehicles.</PleaseWait>
       )}
     </main>
   );
