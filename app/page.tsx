@@ -15,10 +15,17 @@ import {
 // import Select from "@/components/Select";
 // import SelectItem from "@/components/SelectItem";
 
+import { uuid } from "uuidv4";
+
 //Data
 var trafficMeister = require("@/service/index");
 
 export default function Home() {
+  const [keys, setKeys] = useState<any>({
+    brands: uuid(),
+    types: uuid(),
+    colors: uuid(),
+  });
   const [activeFilters, setActiveFilters] = useState<any>(0);
   const [vehicleData, setVehicleData] = useState<any>();
   const [vehicleCopy, setVehicleCopy] = useState<any>();
@@ -63,6 +70,7 @@ export default function Home() {
           {dropdownItems && (
             <div className="w-full flex gap-8  items-center justify-center">
               <Select
+                key={keys.brands}
                 onValueChange={(e) => {
                   console.log(e);
                   if (activeFilters === 0) {
@@ -101,6 +109,7 @@ export default function Home() {
                 </SelectContent>
               </Select>
               <Select
+                key={keys.types}
                 onValueChange={(e) => {
                   console.log(e);
                   if (activeFilters === 0) {
@@ -139,6 +148,7 @@ export default function Home() {
               </Select>
 
               <Select
+                key={keys.colors}
                 onValueChange={(e) => {
                   console.log(e);
                   if (activeFilters === 0) {
@@ -183,6 +193,7 @@ export default function Home() {
               setActiveFilters(0);
               getDropdownItems(vehicleData);
               setVehicleCopy(vehicleData);
+              setKeys({ brands: uuid(), types: uuid(), colors: uuid() });
             }}
           >
             CLEAR ALL FILTERS
