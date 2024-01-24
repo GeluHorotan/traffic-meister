@@ -101,7 +101,7 @@ const Fields: FC<IFields> = ({ setVehicleCopy, vehicleCopy, vehicleData }) => {
             }
           }}
         >
-          <SelectTrigger className="border-black">
+          <SelectTrigger className="border-black" data-testid="brands">
             <SelectValue
               placeholder={
                 selectItems.brands.length === 0 ? (
@@ -150,7 +150,7 @@ const Fields: FC<IFields> = ({ setVehicleCopy, vehicleCopy, vehicleData }) => {
             }
           }}
         >
-          <SelectTrigger className="border-black">
+          <SelectTrigger className="border-black" data-testid="types">
             <SelectValue
               placeholder={
                 selectItems.types.length === 0 ? (
@@ -200,7 +200,7 @@ const Fields: FC<IFields> = ({ setVehicleCopy, vehicleCopy, vehicleData }) => {
             }
           }}
         >
-          <SelectTrigger className="border-black">
+          <SelectTrigger className="border-black" data-testid="colors">
             <SelectValue
               placeholder={
                 selectItems.colors.length === 0 ? (

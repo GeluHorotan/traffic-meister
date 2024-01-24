@@ -17,7 +17,7 @@ const config = {
     "^uuid$": require.resolve("uuid"),
     "^@/service/(.*)$": "<rootDir>/service/$1",
   },
-  setupFilesAfterEnv: ["./jest.setup.js"],
+  setupFilesAfterEnv: ["./setupTests.ts"],
   // Add more setup options before each test is run
   // setupFilesAfterEnv: ['<rootDir>/jest.setup.ts'],
 };
