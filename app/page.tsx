@@ -29,21 +29,23 @@ export default function Home() {
   });
 
   const getDropdownItems = (data) => {
-    // setActiveCar((prevState) => prevState.push(string));
+    setDropdownItems((prevState) => {
+      let temporaryBrands = [];
+      let temporaryTypes = [];
+      let temporaryColors = [];
 
-    let temporaryBrands = [];
-    let temporaryTypes = [];
-    let temporaryColors = [];
+      data?.forEach((data) => {
+        temporaryBrands.push(data.brand);
+        temporaryTypes.push(data.type);
+        data.colors.forEach((color) => temporaryColors.push(color));
+      });
 
-    data?.forEach((data) => {
-      temporaryBrands.push(data.brand);
-      temporaryTypes.push(data.type);
-      data.colors.forEach((color) => temporaryColors.push(color));
+      return {
+        brands: [...new Set(temporaryBrands)],
+        types: [...new Set(temporaryTypes)],
+        colors: [...new Set(temporaryColors)],
+      };
     });
-
-    dropdownItems.brands = [...new Set(temporaryBrands)];
-    dropdownItems.types = [...new Set(temporaryTypes)];
-    dropdownItems.colors = [...new Set(temporaryColors)];
   };
 
   useEffect(() => {
@@ -73,6 +75,7 @@ export default function Home() {
                     setVehicleCopy(filtered);
                   } else if (e.length === 0) {
                     setActiveFilters((prevState) => prevState - 1);
+                    console.log("test");
                   } else {
                     setActiveFilters((prevState) => prevState + 1);
                     const filtered = vehicleCopy?.filter((vehicle, i) =>
@@ -177,6 +180,7 @@ export default function Home() {
           <Button
             className="w-full"
             onClick={(e) => {
+              setActiveFilters(0);
               getDropdownItems(vehicleData);
               setVehicleCopy(vehicleData);
             }}
