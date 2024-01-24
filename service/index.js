@@ -21,7 +21,7 @@ var trafficMeister;
       type: "train",
       brand: "USRA 0-6-6",
       colors: ["yellow", "white", "black"],
-      img: "https://upload.wikimedia.org/wikipedia/en/thumb/a/a1/UP_4466_Neil916.JPG/600px-UP_4466_Neil916.JPG",
+      img: "https://upload.wikimedia.org/wikipedia/commons/thumb/d/d2/CFR_Steam_locomotive.jpg/600px-CFR_Steam_locomotive.jpg",
     },
     {
       id: 4,
