@@ -3,71 +3,20 @@ import Image from "next/image";
 
 import { useState, useEffect } from "react";
 
-// Shadcn
-import { Button } from "@/components/ui/button";
-import {
-  Select,
-  SelectContent,
-  SelectItem,
-  SelectTrigger,
-  SelectValue,
-} from "@/components/ui/select";
-// import Select from "@/components/Select";
-// import SelectItem from "@/components/SelectItem";
-
-import { v4 } from "uuid";
 import { IVehicle } from "@/types/IVehicle";
-import { ISelectItems } from "@/types/ISelectItems";
-import { IKeys } from "@/types/IKeys";
-import { IActiveFilters } from "@/types/IActiveFilters";
+import Fields from "@/components/Fields";
 
 //Data
 var trafficMeister = require("@/service/index");
 
 export default function Home() {
-  const [keys, setKeys] = useState<IKeys>({
-    brands: v4(),
-    types: v4(),
-    colors: v4(),
-  });
-  const [activeFilters, setActiveFilters] = useState<IActiveFilters>({
-    brand: false,
-    type: false,
-    color: false,
-  });
   const [vehicleData, setVehicleData] = useState<IVehicle[]>();
   const [vehicleCopy, setVehicleCopy] = useState<IVehicle[]>();
-  const [selectItems, setSelectItems] = useState<ISelectItems>({
-    brands: [],
-    types: [],
-    colors: [],
-  });
-
-  const getSelectItems = (data: IVehicle[]) => {
-    setSelectItems((prevState) => {
-      let temporaryBrands: string[] = [];
-      let temporaryTypes: string[] = [];
-      let temporaryColors: string[] = [];
-
-      data?.forEach((data: IVehicle) => {
-        temporaryBrands.push(data.brand);
-        temporaryTypes.push(data.type);
-        data.colors.forEach((color: string) => temporaryColors.push(color));
-      });
-
-      return {
-        brands: [...new Set(temporaryBrands)],
-        types: [...new Set(temporaryTypes)],
-        colors: [...new Set(temporaryColors)],
-      };
-    });
-  };
 
   useEffect(() => {
     trafficMeister?.fetchData(function (err: string, data: any) {
       setVehicleData(data);
       setVehicleCopy(data);
-      getSelectItems(data);
     });
   }, []);
 
@@ -75,9 +24,14 @@ export default function Home() {
     return (
       <main className="flex bg-cyan-600 min-h-screen w-full flex-col items-center justify-center py-20 px-14">
         <div className="w-1/2 flex flex-col gap-8 items-center justify-center py-40">
-          {selectItems && (
-            <div className="w-full flex gap-8  items-center justify-center">
-              <Select
+          <div className="w-full flex gap-8  items-center justify-center">
+            <Fields
+              setVehicleCopy={setVehicleCopy}
+              vehicleData={vehicleData}
+              vehicleCopy={vehicleCopy}
+            />
+            {/* FIELDS */}
+            {/* <Select
                 key={keys.brands}
                 onValueChange={(e) => {
                   console.log(e);
@@ -204,10 +158,10 @@ export default function Home() {
                     );
                   })}
                 </SelectContent>
-              </Select>
-            </div>
-          )}
-          <Button
+              </Select> */}
+          </div>
+
+          {/* <Button
             className="w-full"
             onClick={(e) => {
               setActiveFilters({ brand: false, type: false, color: false });
@@ -217,7 +171,7 @@ export default function Home() {
             }}
           >
             CLEAR ALL FILTERS
-          </Button>
+          </Button> */}
         </div>
         <div className="flex flex-wrap w-1/2 items-center justify-between gap-8 ">
           {vehicleCopy?.map((vehicle) => {
