@@ -5,17 +5,15 @@ import { useState, useEffect } from "react";
 
 // NextUI
 import { Button } from "@nextui-org/button";
-// import Select from "@/components/Select";
-// import SelectItem from "@/components/SelectItem";
-import { Select, SelectItem } from "@nextui-org/react";
+import Select from "@/components/Select";
+import SelectItem from "@/components/SelectItem";
+// import { Select, SelectItem } from "@nextui-org/react";
 
 //Data
 var trafficMeister = require("@/service/index");
 
 export default function Home() {
-  const [activeCar, setActiveCar] = useState([]);
   const [activeFilters, setActiveFilters] = useState<any>(0);
-
   const [vehicleData, setVehicleData] = useState<any>();
   const [vehicleCopy, setVehicleCopy] = useState<any>();
   const [dropdownItems, setDropdownItems] = useState<any>({
@@ -28,26 +26,19 @@ export default function Home() {
     // setActiveCar((prevState) => prevState.push(string));
 
     let temporaryBrands = [];
+    let temporaryTypes = [];
+    let temporaryColors = [];
 
-    data?.forEach((data) => temporaryBrands.push(data.brand));
+    data?.forEach((data) => {
+      temporaryBrands.push(data.brand);
+      temporaryTypes.push(data.type);
+      data.colors.forEach((color) => temporaryColors.push(color));
+    });
 
     dropdownItems.brands = [...new Set(temporaryBrands)];
-    // dropdownItems.types = [...new Set(temporaryTypes)];
-    // dropdownItems.colors = [...new Set(temporaryColors)];
+    dropdownItems.types = [...new Set(temporaryTypes)];
+    dropdownItems.colors = [...new Set(temporaryColors)];
   };
-
-  const getDisabledItems = (data, value) => {
-    const disabledItems = data.filter((brand) => !brand.includes(value));
-    setActiveCar(disabledItems);
-
-    console.log(disabledItems, "test");
-  };
-
-  // const getPreviousResults = () => {
-  //   const results = vehicleData.filter((vData) =>
-  //     vData.brand.includes(activeFilters.activeBrand)
-  //   );
-  // };
 
   useEffect(() => {
     trafficMeister?.fetchData(function (err: string, data: any) {
@@ -67,25 +58,24 @@ export default function Home() {
                 name={"brand"}
                 id={"brand"}
                 label={"Select brand."}
-                disabledKeys={activeCar}
                 onChange={(e) => {
                   if (activeFilters === 0) {
                     setActiveFilters((prevState) => prevState + 1);
                     const filtered = vehicleData?.filter((vehicle, i) =>
                       vehicle?.brand?.includes(e.target.value)
                     );
-                    console.log(filtered);
-                    getDisabledItems(dropdownItems.brands, e.target.value);
+                    getDropdownItems(filtered);
+
                     setVehicleCopy(filtered);
                   } else if (e.target.value.length === 0) {
                     setActiveFilters((prevState) => prevState - 1);
-                    setActiveCar([]);
                   } else {
                     setActiveFilters((prevState) => prevState + 1);
                     const filtered = vehicleCopy?.filter((vehicle, i) =>
                       vehicle?.brand?.includes(e.target.value)
                     );
                     getDropdownItems(filtered);
+
                     setVehicleCopy(filtered);
                   }
                 }}
@@ -99,7 +89,9 @@ export default function Home() {
                 })}
               </Select>
 
-              {/* <Select
+              <Select
+                name="type"
+                id="type"
                 label="Select type."
                 onChange={(e) => {
                   if (activeFilters === 0) {
@@ -130,6 +122,8 @@ export default function Home() {
                 ))}
               </Select>
               <Select
+                name="color"
+                id="color"
                 label="Select color"
                 onChange={(e) => {
                   if (activeFilters === 0) {
@@ -158,7 +152,7 @@ export default function Home() {
                     {color}
                   </SelectItem>
                 ))}
-              </Select> */}
+              </Select>
             </div>
           )}
           <Button
