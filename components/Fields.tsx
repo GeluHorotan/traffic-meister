@@ -18,11 +18,12 @@ import { IKeys } from "@/types/IKeys";
 import { IActiveFilters } from "@/types/IActiveFilters";
 import { IVehicle } from "@/types/IVehicle";
 import { capitalizeLetter } from "@/lib/capitalizeLetter";
+import NotFound from "./NotFound";
 
 interface IFields {
   setVehicleCopy: React.Dispatch<React.SetStateAction<IVehicle[] | undefined>>;
-  vehicleData: IVehicle[];
-  vehicleCopy: IVehicle[];
+  vehicleData: IVehicle[] | undefined;
+  vehicleCopy: IVehicle[] | undefined;
 }
 
 const Fields: FC<IFields> = ({ setVehicleCopy, vehicleCopy, vehicleData }) => {
@@ -42,18 +43,19 @@ const Fields: FC<IFields> = ({ setVehicleCopy, vehicleCopy, vehicleData }) => {
     colors: [],
   });
 
-  const getSelectItems = (data: IVehicle[]) => {
+  const getSelectItems = (data: IVehicle[] | undefined) => {
+    console.log("exec");
     setSelectItems((prevState) => {
       let temporaryBrands: string[] = [];
       let temporaryTypes: string[] = [];
       let temporaryColors: string[] = [];
 
       data?.forEach((data: IVehicle) => {
-        temporaryBrands.push(data.brand);
-        temporaryTypes.push(data.type);
-        data.colors.forEach((color: string) => temporaryColors.push(color));
+        temporaryBrands.push(data?.brand);
+        temporaryTypes.push(data?.type);
+        data?.colors?.forEach((color: string) => temporaryColors.push(color));
       });
-
+      console.log(temporaryBrands);
       return {
         brands: [...new Set(temporaryBrands)],
         types: [...new Set(temporaryTypes)],
@@ -62,16 +64,20 @@ const Fields: FC<IFields> = ({ setVehicleCopy, vehicleCopy, vehicleData }) => {
     });
   };
 
+  console.log(vehicleData);
+
   useEffect(() => {
     getSelectItems(vehicleData);
+
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
+  }, [vehicleData]);
 
   return (
     <div className="p-6 rounded-lg w-full flex flex-col items-center justify-center gap-8 bg-white ">
       <div className="w-full flex gap-8 items-center justify-between">
         <Select
-          key={keys.brands}
+          key={keys?.brands}
+          disabled={selectItems.brands.length !== 0 ? false : true}
           onValueChange={(e) => {
             if (!activeFilters.type && !activeFilters.color) {
               setActiveFilters((prevState) => ({
@@ -97,7 +103,15 @@ const Fields: FC<IFields> = ({ setVehicleCopy, vehicleCopy, vehicleData }) => {
           }}
         >
           <SelectTrigger className="border-black">
-            <SelectValue placeholder="Select a brand." />
+            <SelectValue
+              placeholder={
+                selectItems.brands.length === 0 ? (
+                  <NotFound isInField>Please wait.</NotFound>
+                ) : (
+                  "Select a brand."
+                )
+              }
+            />
           </SelectTrigger>
           <SelectContent>
             {selectItems?.brands?.map((brand: any) => {
@@ -110,7 +124,8 @@ const Fields: FC<IFields> = ({ setVehicleCopy, vehicleCopy, vehicleData }) => {
           </SelectContent>
         </Select>
         <Select
-          key={keys.types}
+          key={keys?.types}
+          disabled={selectItems.types.length !== 0 ? false : true}
           onValueChange={(e) => {
             if (!activeFilters.brand && !activeFilters.color) {
               setActiveFilters((prevState) => ({
@@ -137,7 +152,15 @@ const Fields: FC<IFields> = ({ setVehicleCopy, vehicleCopy, vehicleData }) => {
           }}
         >
           <SelectTrigger className="border-black">
-            <SelectValue placeholder="Select a type." />
+            <SelectValue
+              placeholder={
+                selectItems.types.length === 0 ? (
+                  <NotFound isInField>Please wait.</NotFound>
+                ) : (
+                  "Select a brand."
+                )
+              }
+            />
           </SelectTrigger>
           <SelectContent>
             {selectItems?.types?.map((type: any) => {
@@ -151,7 +174,8 @@ const Fields: FC<IFields> = ({ setVehicleCopy, vehicleCopy, vehicleData }) => {
         </Select>
 
         <Select
-          key={keys.colors}
+          key={keys?.colors}
+          disabled={selectItems.colors.length !== 0 ? false : true}
           onValueChange={(e) => {
             if (!activeFilters.brand && !activeFilters.type) {
               setActiveFilters((prevState) => ({
@@ -178,7 +202,15 @@ const Fields: FC<IFields> = ({ setVehicleCopy, vehicleCopy, vehicleData }) => {
           }}
         >
           <SelectTrigger className="border-black">
-            <SelectValue placeholder="Select a brand." />
+            <SelectValue
+              placeholder={
+                selectItems.colors.length === 0 ? (
+                  <NotFound isInField>Please wait.</NotFound>
+                ) : (
+                  "Select a brand."
+                )
+              }
+            />
           </SelectTrigger>
           <SelectContent>
             {selectItems?.colors?.map((color: any) => {
@@ -194,7 +226,7 @@ const Fields: FC<IFields> = ({ setVehicleCopy, vehicleCopy, vehicleData }) => {
       <Button
         className="bg-blue-600 hover:bg-blue-900"
         color="primary"
-        onClick={(e) => {
+        onClick={() => {
           setActiveFilters({ brand: false, type: false, color: false });
           getSelectItems(vehicleData);
           setVehicleCopy(vehicleData);
