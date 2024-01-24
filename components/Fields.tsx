@@ -43,7 +43,6 @@ const Fields: FC<IFields> = ({ setVehicleCopy, vehicleCopy, vehicleData }) => {
   });
 
   const getSelectItems = (data: IVehicle[] | undefined) => {
-    console.log("exec");
     setSelectItems((prevState) => {
       let temporaryBrands: string[] = [];
       let temporaryTypes: string[] = [];
@@ -54,7 +53,7 @@ const Fields: FC<IFields> = ({ setVehicleCopy, vehicleCopy, vehicleData }) => {
         temporaryTypes.push(data?.type);
         data?.colors?.forEach((color: string) => temporaryColors.push(color));
       });
-      console.log(temporaryBrands);
+
       return {
         brands: [...new Set(temporaryBrands)],
         types: [...new Set(temporaryTypes)],
@@ -62,8 +61,6 @@ const Fields: FC<IFields> = ({ setVehicleCopy, vehicleCopy, vehicleData }) => {
       };
     });
   };
-
-  console.log(vehicleData);
 
   useEffect(() => {
     getSelectItems(vehicleData);
