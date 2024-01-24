@@ -12,7 +12,6 @@ import { Button } from "@/components/ui/button";
 
 import { v4 } from "uuid";
 
-// Interfaces
 import { ISelectItems } from "@/types/ISelectItems";
 import { IKeys } from "@/types/IKeys";
 import { IActiveFilters } from "@/types/IActiveFilters";
@@ -21,7 +20,7 @@ import { capitalizeLetter } from "@/lib/capitalizeLetter";
 import NotFound from "./NotFound";
 
 interface IFields {
-  setVehicleCopy: React.Dispatch<React.SetStateAction<IVehicle[] | undefined>>;
+  setVehicleCopy?: React.Dispatch<React.SetStateAction<IVehicle[] | undefined>>;
   vehicleData: IVehicle[] | undefined;
   vehicleCopy: IVehicle[] | undefined;
 }
@@ -88,7 +87,7 @@ const Fields: FC<IFields> = ({ setVehicleCopy, vehicleCopy, vehicleData }) => {
                 vehicle?.brand?.includes(e)
               );
               getSelectItems(filtered);
-              setVehicleCopy(filtered);
+              if (setVehicleCopy) setVehicleCopy(filtered);
             } else {
               setActiveFilters((prevState) => ({
                 ...prevState,
@@ -98,7 +97,7 @@ const Fields: FC<IFields> = ({ setVehicleCopy, vehicleCopy, vehicleData }) => {
                 vehicle?.brand?.includes(e)
               );
               getSelectItems(filtered);
-              setVehicleCopy(filtered);
+              if (setVehicleCopy) setVehicleCopy(filtered);
             }
           }}
         >
@@ -136,7 +135,7 @@ const Fields: FC<IFields> = ({ setVehicleCopy, vehicleCopy, vehicleData }) => {
                 vehicle?.type?.includes(e)
               );
               getSelectItems(filtered);
-              setVehicleCopy(filtered);
+              if (setVehicleCopy) setVehicleCopy(filtered);
             } else {
               setActiveFilters((prevState) => ({
                 ...prevState,
@@ -147,7 +146,7 @@ const Fields: FC<IFields> = ({ setVehicleCopy, vehicleCopy, vehicleData }) => {
                 vehicle?.type?.includes(e)
               );
               getSelectItems(filtered);
-              setVehicleCopy(filtered);
+              if (setVehicleCopy) setVehicleCopy(filtered);
             }
           }}
         >
@@ -187,7 +186,7 @@ const Fields: FC<IFields> = ({ setVehicleCopy, vehicleCopy, vehicleData }) => {
               );
               getSelectItems(filtered);
 
-              setVehicleCopy(filtered);
+              if (setVehicleCopy) setVehicleCopy(filtered);
             } else {
               setActiveFilters((prevState) => ({
                 ...prevState,
@@ -197,7 +196,7 @@ const Fields: FC<IFields> = ({ setVehicleCopy, vehicleCopy, vehicleData }) => {
                 vehicle?.colors?.includes(e)
               );
               getSelectItems(filtered);
-              setVehicleCopy(filtered);
+              if (setVehicleCopy) setVehicleCopy(filtered);
             }
           }}
         >
@@ -229,7 +228,8 @@ const Fields: FC<IFields> = ({ setVehicleCopy, vehicleCopy, vehicleData }) => {
         onClick={() => {
           setActiveFilters({ brand: false, type: false, color: false });
           getSelectItems(vehicleData);
-          setVehicleCopy(vehicleData);
+          if (setVehicleCopy) setVehicleCopy(vehicleData);
+
           setKeys({ brands: v4(), types: v4(), colors: v4() });
         }}
       >

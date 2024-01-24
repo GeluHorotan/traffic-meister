@@ -18,8 +18,11 @@
         "name": "next"
       }
     ],
+    "baseUrl": "./",
     "paths": {
-      "@/*": ["./*"]
+      "@/*": ["./*"],
+
+      "@/service/*": ["service/*"]
     }
   },
 
@@ -28,7 +31,10 @@
     "**/*.ts",
     "**/*.tsx",
     ".next/types/**/*.ts",
-    "service/index.js"
+    "service/index.js",
+    "tests/Home.test.js",
+    "__test__/Home.test.jsx"
   ],
-  "exclude": ["node_modules", "service"]
+  "exclude": ["node_modules", "service"],
+  "types": ["node", "jest", "@testing-library/jest-dom"]
 }
