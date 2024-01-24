@@ -15,36 +15,44 @@ import {
 // import Select from "@/components/Select";
 // import SelectItem from "@/components/SelectItem";
 
-import { uuid } from "uuidv4";
+import { v4 } from "uuid";
+import { IVehicle } from "@/types/IVehicle";
+import { ISelectItems } from "@/types/ISelectItems";
+import { IKeys } from "@/types/IKeys";
+import { IActiveFilters } from "@/types/IActiveFilters";
 
 //Data
 var trafficMeister = require("@/service/index");
 
 export default function Home() {
-  const [keys, setKeys] = useState<any>({
-    brands: uuid(),
-    types: uuid(),
-    colors: uuid(),
+  const [keys, setKeys] = useState<IKeys>({
+    brands: v4(),
+    types: v4(),
+    colors: v4(),
   });
-  const [activeFilters, setActiveFilters] = useState<any>(0);
-  const [vehicleData, setVehicleData] = useState<any>();
-  const [vehicleCopy, setVehicleCopy] = useState<any>();
-  const [dropdownItems, setDropdownItems] = useState<any>({
+  const [activeFilters, setActiveFilters] = useState<IActiveFilters>({
+    brand: false,
+    type: false,
+    color: false,
+  });
+  const [vehicleData, setVehicleData] = useState<IVehicle[]>();
+  const [vehicleCopy, setVehicleCopy] = useState<IVehicle[]>();
+  const [selectItems, setSelectItems] = useState<ISelectItems>({
     brands: [],
     types: [],
     colors: [],
   });
 
-  const getDropdownItems = (data) => {
-    setDropdownItems((prevState) => {
-      let temporaryBrands = [];
-      let temporaryTypes = [];
-      let temporaryColors = [];
+  const getSelectItems = (data: IVehicle[]) => {
+    setSelectItems((prevState) => {
+      let temporaryBrands: string[] = [];
+      let temporaryTypes: string[] = [];
+      let temporaryColors: string[] = [];
 
-      data?.forEach((data) => {
+      data?.forEach((data: IVehicle) => {
         temporaryBrands.push(data.brand);
         temporaryTypes.push(data.type);
-        data.colors.forEach((color) => temporaryColors.push(color));
+        data.colors.forEach((color: string) => temporaryColors.push(color));
       });
 
       return {
@@ -59,7 +67,7 @@ export default function Home() {
     trafficMeister?.fetchData(function (err: string, data: any) {
       setVehicleData(data);
       setVehicleCopy(data);
-      getDropdownItems(data);
+      getSelectItems(data);
     });
   }, []);
 
@@ -67,29 +75,32 @@ export default function Home() {
     return (
       <main className="flex bg-cyan-600 min-h-screen w-full flex-col items-center justify-center py-20 px-14">
         <div className="w-1/2 flex flex-col gap-8 items-center justify-center py-40">
-          {dropdownItems && (
+          {selectItems && (
             <div className="w-full flex gap-8  items-center justify-center">
               <Select
                 key={keys.brands}
                 onValueChange={(e) => {
                   console.log(e);
-                  if (activeFilters === 0) {
-                    setActiveFilters((prevState) => prevState + 1);
+                  if (!activeFilters.type && !activeFilters.color) {
+                    setActiveFilters((prevState) => ({
+                      ...prevState,
+                      brand: true,
+                    }));
                     const filtered = vehicleData?.filter((vehicle, i) =>
                       vehicle?.brand?.includes(e)
                     );
-                    getDropdownItems(filtered);
+                    getSelectItems(filtered);
 
                     setVehicleCopy(filtered);
-                  } else if (e.length === 0) {
-                    setActiveFilters((prevState) => prevState - 1);
-                    console.log("test");
                   } else {
-                    setActiveFilters((prevState) => prevState + 1);
+                    setActiveFilters((prevState) => ({
+                      ...prevState,
+                      brand: true,
+                    }));
                     const filtered = vehicleCopy?.filter((vehicle, i) =>
                       vehicle?.brand?.includes(e)
                     );
-                    getDropdownItems(filtered);
+                    getSelectItems(filtered);
 
                     setVehicleCopy(filtered);
                   }
@@ -99,7 +110,7 @@ export default function Home() {
                   <SelectValue placeholder="Select a brand." />
                 </SelectTrigger>
                 <SelectContent>
-                  {dropdownItems?.brands?.map((brand: any) => {
+                  {selectItems?.brands?.map((brand: any) => {
                     return (
                       <SelectItem key={brand} value={brand}>
                         {brand}
@@ -112,22 +123,27 @@ export default function Home() {
                 key={keys.types}
                 onValueChange={(e) => {
                   console.log(e);
-                  if (activeFilters === 0) {
-                    setActiveFilters((prevState) => prevState + 1);
+                  if (!activeFilters.brand && !activeFilters.color) {
+                    setActiveFilters((prevState) => ({
+                      ...prevState,
+                      type: true,
+                    }));
                     const filtered = vehicleData?.filter((vehicle, i) =>
                       vehicle?.type?.includes(e)
                     );
-                    getDropdownItems(filtered);
+                    getSelectItems(filtered);
 
                     setVehicleCopy(filtered);
-                  } else if (e.length === 0) {
-                    setActiveFilters((prevState) => prevState - 1);
                   } else {
-                    setActiveFilters((prevState) => prevState + 1);
+                    setActiveFilters((prevState) => ({
+                      ...prevState,
+                      type: true,
+                    }));
+
                     const filtered = vehicleCopy?.filter((vehicle, i) =>
                       vehicle?.type?.includes(e)
                     );
-                    getDropdownItems(filtered);
+                    getSelectItems(filtered);
 
                     setVehicleCopy(filtered);
                   }
@@ -137,7 +153,7 @@ export default function Home() {
                   <SelectValue placeholder="Select a type." />
                 </SelectTrigger>
                 <SelectContent>
-                  {dropdownItems?.types?.map((type: any) => {
+                  {selectItems?.types?.map((type: any) => {
                     return (
                       <SelectItem key={type} value={type}>
                         {type}
@@ -150,23 +166,27 @@ export default function Home() {
               <Select
                 key={keys.colors}
                 onValueChange={(e) => {
-                  console.log(e);
-                  if (activeFilters === 0) {
-                    setActiveFilters((prevState) => prevState + 1);
+                  console.log(activeFilters, "fff");
+                  if (!activeFilters.brand && !activeFilters.type) {
+                    setActiveFilters((prevState) => ({
+                      ...prevState,
+                      color: true,
+                    }));
                     const filtered = vehicleData?.filter((vehicle, i) =>
                       vehicle?.colors?.includes(e)
                     );
-                    getDropdownItems(filtered);
+                    getSelectItems(filtered);
 
                     setVehicleCopy(filtered);
-                  } else if (e.length === 0) {
-                    setActiveFilters((prevState) => prevState - 1);
                   } else {
-                    setActiveFilters((prevState) => prevState + 1);
+                    setActiveFilters((prevState) => ({
+                      ...prevState,
+                      color: true,
+                    }));
                     const filtered = vehicleCopy?.filter((vehicle, i) =>
                       vehicle?.colors?.includes(e)
                     );
-                    getDropdownItems(filtered);
+                    getSelectItems(filtered);
 
                     setVehicleCopy(filtered);
                   }
@@ -176,7 +196,7 @@ export default function Home() {
                   <SelectValue placeholder="Select a brand." />
                 </SelectTrigger>
                 <SelectContent>
-                  {dropdownItems?.colors?.map((color: any) => {
+                  {selectItems?.colors?.map((color: any) => {
                     return (
                       <SelectItem key={color} value={color}>
                         {color}
@@ -190,10 +210,10 @@ export default function Home() {
           <Button
             className="w-full"
             onClick={(e) => {
-              setActiveFilters(0);
-              getDropdownItems(vehicleData);
+              setActiveFilters({ brand: false, type: false, color: false });
+              getSelectItems(vehicleData);
               setVehicleCopy(vehicleData);
-              setKeys({ brands: uuid(), types: uuid(), colors: uuid() });
+              setKeys({ brands: v4(), types: v4(), colors: v4() });
             }}
           >
             CLEAR ALL FILTERS
@@ -212,10 +232,10 @@ export default function Home() {
                 <span className="text-3xl font-bold">{vehicle?.type}</span>
                 <span className="text-xl font-semibold">{vehicle?.brand}</span>
                 <span className="flex gap-2">
-                  {vehicle?.colors?.map((color) => (
+                  {vehicle?.colors?.map((color: string) => (
                     <span
                       style={{ backgroundColor: `${color}` }}
-                      key={vehicle?.color}
+                      key={color}
                       className={`flex gap-4 h-4 w-4 rounded-full `}
                     ></span>
                   ))}
