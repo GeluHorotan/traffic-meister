@@ -27,14 +27,14 @@ interface IVehicleCard {
 
 const VehicleCard: FC<IVehicleCard> = ({ vehicle, className, ...rest }) => {
   return (
-    <div data-testid="vehicle-card">
+    <div data-testid="vehicle-card h-full">
       <Card className={cn("w-full ", className)} {...rest} id={vehicle?.brand}>
         <CardHeader>
           <CardDescription className="font-bold text-xl text-black">
             {capitalizeLetter(vehicle.type)}
           </CardDescription>
         </CardHeader>
-        <CardContent className="flex flex-col gap-4 h-[38vh] ">
+        <CardContent className="flex flex-col gap-4 h-[38vh] max-[1245px]:h-[50vh] max-[950px]:h-max">
           <Image
             height={600}
             width={600}

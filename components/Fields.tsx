@@ -70,7 +70,7 @@ const Fields: FC<IFields> = ({ setVehicleCopy, vehicleCopy, vehicleData }) => {
 
   return (
     <div className="p-6 rounded-lg w-full flex flex-col items-center justify-center gap-8 bg-white ">
-      <div className="w-full flex gap-8 items-center justify-between">
+      <div className="w-full flex gap-8 items-center justify-between max-[780px]:flex-col">
         <Select
           key={keys?.brands}
           disabled={selectItems.brands.length !== 0 ? false : true}

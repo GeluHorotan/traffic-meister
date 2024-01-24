@@ -24,7 +24,7 @@ export default function Home() {
 
   return (
     <main className="flex bg-gray-800 min-h-screen w-full flex-col items-center justify-center py-40 px-14 gap-20">
-      <div className="w-[70%] flex flex-col gap-8 items-center justify-center">
+      <div className="w-[70%]  flex flex-col gap-8 items-center justify-center max-[1500px]:w-[90%] max-[950px]:w-full">
         <Fields
           setVehicleCopy={setVehicleCopy}
           vehicleData={vehicleData}
@@ -33,7 +33,7 @@ export default function Home() {
       </div>
 
       {vehicleCopy ? (
-        <div className="grid grid-cols-3 w-[70%] items-center justify-between gap-8 ">
+        <div className=" grid grid-cols-3 w-[70%] max-[950px]:w-full max-[1500px]:w-[90%] max-[1245px]:grid-cols-2 max-[950px]:grid-cols-1 items-center justify-between gap-8 ">
           {vehicleCopy?.map((vehicle) => {
             return (
               <VehicleCard key={vehicle?.brand} vehicle={vehicle}></VehicleCard>
