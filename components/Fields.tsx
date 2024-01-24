@@ -1,5 +1,6 @@
 import React, { FC, useEffect, useState } from "react";
 
+// Shadcn
 import {
   Select,
   SelectContent,
@@ -7,13 +8,15 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
+import { Button } from "@/components/ui/button";
 
 import { v4 } from "uuid";
+
+// Interfaces
 import { ISelectItems } from "@/types/ISelectItems";
 import { IKeys } from "@/types/IKeys";
 import { IActiveFilters } from "@/types/IActiveFilters";
 import { IVehicle } from "@/types/IVehicle";
-import { Button } from "@/components/ui/button";
 
 interface IFields {
   setVehicleCopy: React.Dispatch<React.SetStateAction<IVehicle[] | undefined>>;
@@ -64,12 +67,11 @@ const Fields: FC<IFields> = ({ setVehicleCopy, vehicleCopy, vehicleData }) => {
   }, []);
 
   return (
-    <div className=" w-full flex flex-col items-center justify-center gap-20">
+    <div className="p-6 rounded-lg w-full flex flex-col items-center justify-center gap-8 bg-white ">
       <div className="w-full flex gap-8 items-center justify-between">
         <Select
           key={keys.brands}
           onValueChange={(e) => {
-            console.log(e);
             if (!activeFilters.type && !activeFilters.color) {
               setActiveFilters((prevState) => ({
                 ...prevState,
@@ -93,7 +95,7 @@ const Fields: FC<IFields> = ({ setVehicleCopy, vehicleCopy, vehicleData }) => {
             }
           }}
         >
-          <SelectTrigger>
+          <SelectTrigger className="border-black">
             <SelectValue placeholder="Select a brand." />
           </SelectTrigger>
           <SelectContent>
@@ -133,7 +135,7 @@ const Fields: FC<IFields> = ({ setVehicleCopy, vehicleCopy, vehicleData }) => {
             }
           }}
         >
-          <SelectTrigger>
+          <SelectTrigger className="border-black">
             <SelectValue placeholder="Select a type." />
           </SelectTrigger>
           <SelectContent>
@@ -174,7 +176,7 @@ const Fields: FC<IFields> = ({ setVehicleCopy, vehicleCopy, vehicleData }) => {
             }
           }}
         >
-          <SelectTrigger>
+          <SelectTrigger className="border-black">
             <SelectValue placeholder="Select a brand." />
           </SelectTrigger>
           <SelectContent>
@@ -189,7 +191,8 @@ const Fields: FC<IFields> = ({ setVehicleCopy, vehicleCopy, vehicleData }) => {
         </Select>
       </div>
       <Button
-        className="w-full"
+        className="bg-blue-600 hover:bg-blue-900"
+        color="primary"
         onClick={(e) => {
           setActiveFilters({ brand: false, type: false, color: false });
           getSelectItems(vehicleData);
