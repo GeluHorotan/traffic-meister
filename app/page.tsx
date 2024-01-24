@@ -32,8 +32,9 @@ export default function Home() {
         />
       </div>
 
+      <NotFound>Please Wait.</NotFound>
       {vehicleCopy ? (
-        <div className=" grid grid-cols-3 w-[70%] max-[950px]:w-full max-[1500px]:w-[90%] max-[1245px]:grid-cols-2 max-[950px]:grid-cols-1 items-center justify-between gap-8 ">
+        <div className=" grid grid-cols-3  max-[950px]:w-full max-[1500px]:w-[90%] w-[70%] max-[1245px]:grid-cols-2 max-[950px]:grid-cols-1 items-center justify-between gap-8 ">
           {vehicleCopy?.map((vehicle) => {
             return (
               <VehicleCard key={vehicle?.brand} vehicle={vehicle}></VehicleCard>

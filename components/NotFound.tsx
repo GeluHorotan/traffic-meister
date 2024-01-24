@@ -25,7 +25,7 @@ const NotFound: FC<INotFound> = ({ children, isInField }) => {
     );
   } else {
     return (
-      <div className="w-[70%] p-6 bg-white rounded-lg flex items-center justify-center gap-8">
+      <div className="max-[950px]:w-full max-[1500px]:w-[90%] w-[70%] p-6 bg-white rounded-lg flex items-center justify-center gap-8">
         <RotatingLines
           visible={true}
           width="40"
