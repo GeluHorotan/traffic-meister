@@ -17,6 +17,7 @@ import { ISelectItems } from "@/types/ISelectItems";
 import { IKeys } from "@/types/IKeys";
 import { IActiveFilters } from "@/types/IActiveFilters";
 import { IVehicle } from "@/types/IVehicle";
+import { capitalizeLetter } from "@/lib/capitalizeLetter";
 
 interface IFields {
   setVehicleCopy: React.Dispatch<React.SetStateAction<IVehicle[] | undefined>>;
@@ -142,7 +143,7 @@ const Fields: FC<IFields> = ({ setVehicleCopy, vehicleCopy, vehicleData }) => {
             {selectItems?.types?.map((type: any) => {
               return (
                 <SelectItem key={type} value={type}>
-                  {type}
+                  {capitalizeLetter(type)}
                 </SelectItem>
               );
             })}
@@ -183,7 +184,7 @@ const Fields: FC<IFields> = ({ setVehicleCopy, vehicleCopy, vehicleData }) => {
             {selectItems?.colors?.map((color: any) => {
               return (
                 <SelectItem key={color} value={color}>
-                  {color}
+                  {capitalizeLetter(color)}
                 </SelectItem>
               );
             })}

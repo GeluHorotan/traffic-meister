@@ -18,6 +18,7 @@ import { CircleDollarSign } from "lucide-react";
 // Classname merge function
 import { cn } from "@/lib/utils";
 import { IVehicle } from "@/types/IVehicle";
+import { capitalizeLetter } from "@/lib/capitalizeLetter";
 
 interface IVehicleCard {
   vehicle: IVehicle;
@@ -29,7 +30,7 @@ const VehicleCard: FC<IVehicleCard> = ({ vehicle, className, ...rest }) => {
     <Card className={cn("w-full ", className)} {...rest}>
       <CardHeader>
         <CardDescription className="font-bold text-xl text-black">
-          {vehicle.type.toUpperCase()}
+          {capitalizeLetter(vehicle.type)}
         </CardDescription>
       </CardHeader>
       <CardContent className="flex flex-col gap-4 h-[38vh] ">
