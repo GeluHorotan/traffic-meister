@@ -6,6 +6,10 @@ const nextConfig = {
         hostname: "upload.wikimedia.org",
         protocol: "https",
       },
+      {
+        hostname: "static.vecteezy.com",
+        protocol: "https",
+      },
     ],
   },
 };

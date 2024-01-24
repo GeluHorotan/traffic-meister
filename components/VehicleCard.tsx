@@ -1,5 +1,5 @@
 import Image from "next/image";
-import React, { FC } from "react";
+import React, { FC, useState } from "react";
 
 //Shadcn
 import {
@@ -26,6 +26,8 @@ interface IVehicleCard {
 }
 
 const VehicleCard: FC<IVehicleCard> = ({ vehicle, className, ...rest }) => {
+  const [src, setSrc] = useState(vehicle.img);
+
   return (
     <div data-testid="vehicle-card h-full">
       <Card className={cn("w-full ", className)} {...rest} id={vehicle?.brand}>
@@ -38,9 +40,14 @@ const VehicleCard: FC<IVehicleCard> = ({ vehicle, className, ...rest }) => {
           <Image
             height={600}
             width={600}
-            src={vehicle?.img}
+            src={src}
             alt={vehicle?.brand}
             className=" rounded-lg w-full h-full object-cover border shadow-sm"
+            onError={() =>
+              setSrc(
+                "https://static.vecteezy.com/system/resources/previews/005/337/799/original/icon-image-not-found-free-vector.jpg"
+              )
+            }
           />
           <span className="text-xl font-semibold w-full ">
             {vehicle?.brand}
