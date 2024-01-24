@@ -17,8 +17,14 @@ import { CircleDollarSign } from "lucide-react";
 
 // Classname merge function
 import { cn } from "@/lib/utils";
+import { IVehicle } from "@/types/IVehicle";
 
-const VehicleCard: FC = ({ vehicle, className, ...rest }) => {
+interface IVehicleCard {
+  vehicle: IVehicle;
+  className?: string;
+}
+
+const VehicleCard: FC<IVehicleCard> = ({ vehicle, className, ...rest }) => {
   return (
     <Card className={cn("w-full ", className)} {...rest}>
       <CardHeader>
